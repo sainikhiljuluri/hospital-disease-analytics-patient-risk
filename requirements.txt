@@ -1,0 +1,97 @@
+# ===========================================================================
+# Hospital Disease Analytics - Python dependencies
+#
+# Install everything with:
+#     pip install -r requirements.txt
+#
+# Versions are pinned with a lower and upper bound. The lower bound guarantees
+# the features this project uses exist; the upper bound stops a future major
+# release from silently breaking your submission the week before you demo.
+# ===========================================================================
+
+# --- core data handling ----------------------------------------------------
+pandas>=2.0,<3.0
+numpy>=1.24,<3.0
+
+# --- database --------------------------------------------------------------
+SQLAlchemy>=2.0,<3.0        # database toolkit: builds the connection + queries
+PyMySQL>=1.1,<2.0           # the actual MySQL driver SQLAlchemy talks through
+cryptography>=41.0          # required by PyMySQL for MySQL 8's default auth
+
+# --- visualisation ---------------------------------------------------------
+plotly>=5.18,<7.0           # interactive charts (used everywhere)
+matplotlib>=3.7,<4.0        # static charts, occasionally handy in the notebook
+seaborn>=0.12,<1.0
+
+# --- dashboard -------------------------------------------------------------
+streamlit>=1.32,<2.0
+
+# --- notebook --------------------------------------------------------------
+jupyter>=1.0
+notebook>=7.0
+ipykernel>=6.25
+nbformat>=5.9               # plotly needs this to render inside notebooks
+
+# --- configuration ---------------------------------------------------------
+python-dotenv>=1.0          # reads your .env file so passwords stay out of code
+
+# --- optional: cufflinks ---------------------------------------------------
+# Cufflinks adds df.iplot() to pandas DataFrames. It has been unmaintained since
+# 2021 and calls DataFrame.iteritems(), which pandas REMOVED in version 2.0, so
+# it crashes on a modern install. The notebook patches that method back before
+# importing it, and falls back to Plotly Express if the import still fails.
+#
+# Install it only if your brief specifically requires cufflinks:
+#     pip install cufflinks
+# Everything in this project works without it.
+# cufflinks>=0.17.3
+
+# --- optional: trend lines in the Correlation Lab scatter plot -------------
+# statsmodels>=0.14
+
+# ===========================================================================
+# MODULE 4 - MACHINE LEARNING  (required for scripts/04_train_model.py)
+# ===========================================================================
+scikit-learn>=1.3,<2.0
+joblib>=1.3                 # saves the trained model to disk
+
+# --- optional: a stronger gradient booster --------------------------------
+# The project works without this. If xgboost is absent, training falls back to
+# scikit-learn's HistGradientBoostingClassifier, which is comparable and needs
+# no extra install. Uncomment if you want XGBoost specifically:
+# xgboost>=2.0,<3.0
+
+# --- optional: SHAP explanations ------------------------------------------
+# Without shap, per-patient explanations use a coefficient/impurity method that
+# is already built in. shap gives more rigorous attributions but installs a
+# large dependency tree.
+# shap>=0.44
+
+# ===========================================================================
+# MODULE 5 - GENERATIVE AI  (scripts/05_generate_report.py)
+# ===========================================================================
+# NOTHING TO PIP INSTALL. The default AI provider is OLLAMA, running Llama
+# locally on your own machine, and the project talks to it using Python's
+# built-in urllib. No package, no API key, no account.
+#
+# Install Ollama itself (not a Python package) once:
+#     1. https://ollama.com/download
+#     2. ollama pull llama3.2
+#
+# Why local rather than a hosted API: patient records never leave the machine.
+# For clinical data that is not a cost saving, it is the correct architecture.
+#
+# If Ollama is not installed, Module 5 still produces a complete report from a
+# deterministic template using the identical grounded facts. That fallback
+# demonstrates the architecture rather than apologising for it - if the report
+# is right without an LLM, the grounding layer is doing the work.
+#
+# --- optional hosted alternatives (cost money, send data off-machine) ------
+# anthropic>=0.30           # Claude
+# openai>=1.30              # GPT
+# transformers>=4.40        # local Hugging Face model - bigger and slower than Ollama
+#
+# Module 6 - API and deployment
+#   fastapi>=0.110
+#   uvicorn>=0.29
+#   pydantic>=2.6
